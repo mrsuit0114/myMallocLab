@@ -110,7 +110,7 @@ static void *extend_heap(size_t words)
         return NULL;
 
 
-    PUT(HDRP(bp), PACK(size, 0));
+    PUT(HDRP(bp), PACK(size, 0)); //크기 재정의
     PUT(FTRP(bp), PACK(size, 0));
     PUT(HDRP(NEXT_BLKP(bp)), PACK(0, 1));
 
@@ -202,6 +202,7 @@ void mm_free(void *ptr)
     coalesce(ptr);
 }
 
+//first fit
 static void *find_fit(size_t asize){
     // 적절한 가용 블록을 검색하고 가용블록의 주소를 반환한다
     //first fit 검색을 수행한다. -> 리스트 처음부터 탐색하여 가용블록 찾기
@@ -215,6 +216,7 @@ static void *find_fit(size_t asize){
     return NULL;
 }
 
+//next fit
 // static void *find_fit(size_t asize){
 //     void *bp;
 //     for (bp = last_modip; GET_SIZE(HDRP(bp)) >0; bp = NEXT_BLKP(bp)){
